@@ -143,7 +143,7 @@ const Renderer = (props: any) => {
           fontWeight: 600,
           transition: `${speed}s ease`,
           color: color,
-          filter: `drop-shadow(2px 2px 7px #000000e1)`,
+          filter: `drop-shadow(2px 2px 7px #250000b2)`,
           pointerEvents: "none",
         }}
       >
@@ -152,14 +152,15 @@ const Renderer = (props: any) => {
     );
   };
 
-  const icon = false;
-
   return (
     <div
       style={{
         position: "absolute",
         width: width > 500 ? "400px" : "100%",
         height: width > 500 ? "800px" : "100%",
+        left: width > 500 ? "50%" : "0%",
+        top: width > 500 ? "50%" : "0%",
+        transform: width > 500 ? "translate(-50%,-50%)" : "translate(0%,0%)",
         userSelect: "none",
         overflow: "hidden",
       }}
@@ -176,8 +177,8 @@ const Renderer = (props: any) => {
         "About",
         green,
         saturate
-          ? "sepia(70%) hue-rotate(-50deg) saturate(1900%) grayscale(.1) contrast(1)"
-          : "sepia(20%) hue-rotate(-50deg) saturate(100%) grayscale(1) contrast(1.5)"
+          ? "sepia(70%) hue-rotate(-50deg) saturate(1900%) grayscale(.1) contrast(1) "
+          : "sepia(20%) hue-rotate(-50deg) saturate(100%) grayscale(1) contrast(1.5) "
       )}
       {filterClusters(
         "Merch",
@@ -190,22 +191,22 @@ const Renderer = (props: any) => {
         "Home",
         black,
         saturate2
-          ? "brightness(50%) saturate(100%) contrast(3)"
+          ? "brightness(45%) saturate(100%) contrast(3)"
           : "brightness(110%) saturate(20%) contrast(1.5)"
       )}
       {filterClusters(
         "FAQ",
         red,
         saturate2
-          ? "brightness(50%) saturate(100%) contrast(3)"
+          ? "brightness(48%) saturate(100%) contrast(3)"
           : "brightness(110%) saturate(20%) contrast(1.5)"
       )}
 
       <Title
         title={""}
-        imageSize={110}
-        left={10}
-        top={5}
+        imageSize={!saturate2 ? 200 : hovered === "Home" ? 110 : 100}
+        left={!saturate2 ? 30 : hovered === "Home" ? 4 : 10}
+        top={!saturate2 ? 35 : hovered === "Home" ? 2 : 5}
         transform={""}
         color={"white"}
         fontSize={30}
@@ -213,124 +214,47 @@ const Renderer = (props: any) => {
         filter={"invert(0)"}
         url={"./logo.png"}
       />
-      {!icon ? (
-        <div style={{ opacity: text ? 1 : 0, transition: `${speed}s ease` }}>
-          {createTitle(
-            hovered === "About" ? 65 : 52, //fontSize
-            "US",
-            hovered === "About" ? 65 : 63, //x
-            hovered === "About" ? 22 : 22, //y
-            "translate(-50%,-50%) rotateZ(-15deg) perspective(30px) ",
-            "white"
-          )}
-          {createTitle(
-            hovered === "Book" ? 84 : 59, //fontSize
-            "BOOK",
-            53, //x
-            44, //y
-            "translate(-50%,-50%) perspective(30px) rotateX(.5deg)  rotateZ(-10deg) ",
-            "white"
-          )}
 
-          {createTitle(
-            hovered === "Merch" ? 62 : 52, //fontSize
-            "SHOP",
-            hovered === "Merch" ? 21 : 24, //x
-            hovered === "Merch" ? 65.5 : 65.5, //y
-            "translate(-50%,-50%) rotateZ(32deg) perspective(30px) rotateX(1deg)   ",
-            "white"
-          )}
-          {createTitle(
-            hovered === "FAQ" ? 65 : 52, //fontSize
-            "FAQ",
-            hovered === "FAQ" ? 75 : 73, //x
-            hovered === "FAQ" ? 81 : 80, //y
-            "translate(-50%,-50%) rotateZ(-0deg) perspective(30px) rotateX(1deg) skewX(-1deg)  ",
-            "white"
-          )}
-        </div>
-      ) : (
-        <div style={{ opacity: text ? 1 : 0, transition: `${speed}s ease` }}>
-          <Title
-            title={""}
-            imageSize={60}
-            left={68}
-            top={16}
-            transform={""}
-            color={"white"}
-            fontSize={30}
-            speed={speed}
-            filter={"invert(1)"}
-            url={
-              "https://cdn-icons.flaticon.com/png/512/471/premium/471713.png?token=exp=1637839756~hmac=c922d32c01facf3e6018220b12c30b5b"
-            }
-          />
-          <Title
-            title={""}
-            left={46}
-            top={38}
-            transform={""}
-            color={"white"}
-            fontSize={30}
-            speed={speed}
-            filter={"invert(1)"}
-            url={"https://cdn-icons-png.flaticon.com/512/1164/1164651.png"}
-            imageSize={70}
-          />
-          <Title
-            title={""}
-            left={14}
-            top={65}
-            transform={""}
-            color={"white"}
-            fontSize={30}
-            speed={speed}
-            filter={"invert(1)"}
-            url={"https://cdn-icons-png.flaticon.com/512/1746/1746751.png"}
-            imageSize={80}
-          />
+      <div style={{ opacity: text ? 1 : 0, transition: `${speed}s ease` }}>
+        {createTitle(
+          hovered === "About" ? 65 : 55, //fontSize
+          "about",
+          hovered === "About" ? 65 : 63, //x
+          hovered === "About" ? 22 : 22, //y
+          "translate(-50%,-50%) rotateZ(0deg) perspective(30px) rotateZ(-5deg) ",
+          "white"
+        )}
+        {createTitle(
+          hovered === "Book" ? 84 : 55, //fontSize
+          "book",
+          53, //x
+          44, //y
+          "translate(-50%,-50%) perspective(30px) rotateX(.5deg)  rotateZ(0deg) ",
+          "white"
+        )}
 
-          <Title
-            title={""}
-            imageSize={80}
-            left={65}
-            top={75}
-            transform={""}
-            color={"white"}
-            fontSize={30}
-            speed={speed}
-            filter={"invert(1)"}
-            url={"https://cdn-icons-png.flaticon.com/512/1746/1746751.png"}
-          />
-          <Title2
-            title={"BOOK"}
-            left={43.5}
-            top={46.5}
-            transform={""}
-            fontSize={35}
-            speed={speed}
-            filter={""}
-          />
-          <Title2
-            title={"SHOP"}
-            left={14}
-            top={65}
-            transform={""}
-            fontSize={45}
-            speed={speed}
-            filter={""}
-          />
-          <Title2
-            title={"FAQ"}
-            left={65}
-            top={65}
-            transform={""}
-            fontSize={45}
-            speed={speed}
-            filter={""}
-          />
-        </div>
-      )}
+        {createTitle(
+          hovered === "Merch" ? 62 : 55, //fontSize
+          "shop",
+          hovered === "Merch" ? 21 : 24, //x
+          hovered === "Merch" ? 65.5 : 65.5, //y
+          "translate(-50%,-50%) rotateZ(0deg) perspective(30px) rotateX(1deg) rotateZ(5deg)  ",
+          "white"
+        )}
+
+        <Title
+          title={""}
+          imageSize={hovered === "FAQ" ? 100 : 80}
+          left={hovered === "FAQ" ? 66 : 65}
+          top={hovered === "FAQ" ? 76 : 75}
+          transform={""}
+          color={"white"}
+          fontSize={30}
+          speed={speed}
+          filter={"invert(1)"}
+          url={"https://cdn-icons-png.flaticon.com/512/1746/1746751.png"}
+        />
+      </div>
     </div>
   );
 };

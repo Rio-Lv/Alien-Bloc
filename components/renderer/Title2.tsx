@@ -23,6 +23,7 @@ export default function Title2(props: {
         paddingLeft: "4px",
         paddingRight: "4px",
         boxShadow: "0px 0px 10px #310303a6",
+        transition: `${props.speed}s`,
         // borderRadius: "10px",
       }}
     >
@@ -40,6 +41,7 @@ export default function Title2(props: {
           transform: "scaleX(1.2)",
           mixBlendMode: "screen",
           filter: `drop-shadow(1px 2px 7px #000000)`,
+          // transition: `${props.speed}s`,
         }}
       >
         {props.title}

@@ -16,10 +16,11 @@ export default function Title(props: {
     <div
       style={{
         position: "absolute",
-        filter: `drop-shadow(2px 2px 7px #330000a2)`,
+        filter: `drop-shadow(2px 2px 7px #330000a7)`,
         pointerEvents: "none",
         left: `${props.left}%`,
         top: `${props.top}%`,
+        transition: `${props.speed}s ease`,
         transform: "",
         // border: "3px solid red",
       }}
@@ -32,7 +33,7 @@ export default function Title(props: {
           backgroundRepeat: "no-repeat",
           backgroundPosition: "center",
           backgroundImage: `url(${props.url})`,
-
+          transition: `${props.speed}s ease`,
           filter: props.filter,
         }}
       ></div>
