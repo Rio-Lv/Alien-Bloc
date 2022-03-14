@@ -116,6 +116,11 @@ export const CreatePolyV3 = (props: any) => {
           props.mouseLeave();
         }
       }}
+      onClick={() => {
+        if (props.clickFunction) {
+          props.clickFunction();
+        }
+      }}
       style={{
         position: "absolute",
         opacity: "100%",

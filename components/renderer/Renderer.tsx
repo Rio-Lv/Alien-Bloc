@@ -17,16 +17,20 @@ import { calculateStuff } from "./functions";
 import { generatePolygons, CreatePolyV3 } from "./functions";
 import Title from "./Title";
 import Title2 from "./Title2";
+import Book from "../../pages/Book";
+
 const Renderer = (props: any) => {
   const [anchors, setAnchors] = useState(crackedClosed);
   const [clusters, setClusters] = useState(crackedClusters);
   const [saturate, setSaturate] = useState(false);
   const [saturate2, setSaturate2] = useState(false);
   const [speed, setSpeed] = useState(0.5);
-  const [booking, setBooking] = useState(false);
   const [hovered, setHovered] = useState("");
   const [text, setText] = useState(false);
   const [width, setWidth] = useState<number>(0);
+  const [cracked, setCracked] = useState(false);
+  const [clicked, setClicked] = useState("");
+  const [bright, setBright] = useState(false);
 
   function handleWindowSizeChange() {
     setWidth(window.innerWidth);
@@ -42,23 +46,24 @@ const Renderer = (props: any) => {
   useEffect(() => {
     setTimeout(() => {
       setSaturate(true);
-    }, 1000);
+    }, 400);
     setTimeout(() => {
       setSaturate2(true);
-    }, 1500);
+    }, 800);
 
     setTimeout(() => {
+      setText(true);
       setAnchors(crackedOpen);
+      setCracked(true);
     }, 2000);
     setTimeout(() => {
-      setText(true);
       setSpeed(0.3);
-    }, 3000);
+    }, 2100);
   }, []);
 
   useEffect(() => {
     if (speed === 0.3) {
-      console.log(hovered);
+      // console.log(hovered);
       if (hovered === "Book") {
         setAnchors(bookHover);
       } else if (hovered === "About") {
@@ -75,14 +80,40 @@ const Renderer = (props: any) => {
     }
   }, [hovered, saturate]);
 
-  const createColorPoly = (Name: string, cluster: number[], filter: string) => {
+  useEffect(() => {
+    console.log(clicked);
+    setText(false);
+    setAnchors(crackedClosed);
+    setTimeout(() => {
+      setSpeed(1);
+      setSaturate(false);
+      setSaturate2(false);
+      setCracked(false);
+    }, 300);
+    setTimeout(() => {
+      if (clicked === "Book") {
+        setBright(true);
+      }
+    }, 500);
+    setTimeout(() => {
+      if (clicked === "Book") {
+        window.location.href = "./Book";
+      }
+    }, 700);
+  }, [clicked]);
+
+  const createColorPoly = (
+    Name: string,
+    cluster: number[],
+    filter: string,
+    clickFunction: Function
+  ) => {
     const mouseEnter = () => {
       setHovered(Name);
     };
     const mouseLeave = () => {
       setHovered("");
     };
-    const clickFunction = () => {};
 
     const a = cluster[0];
     const b = cluster[1];
@@ -114,7 +145,11 @@ const Renderer = (props: any) => {
   ) => {
     var filtered: any = [];
     clusters.forEach((cluster) => {
-      filtered.push(createColorPoly(Name, cluster, filterString));
+      filtered.push(
+        createColorPoly(Name, cluster, filterString, () => {
+          setClicked(Name);
+        })
+      );
     });
     return filtered;
   };
@@ -163,6 +198,9 @@ const Renderer = (props: any) => {
         transform: width > 500 ? "translate(-50%,-50%)" : "translate(0%,0%)",
         userSelect: "none",
         overflow: "hidden",
+        pointerEvents: speed == 0.3 ? "auto" : "none",
+        transition: bright ? `${1}s ease` : "0s ease",
+        filter: bright ? "brightness(10)" : "brightness(1)",
       }}
     >
       {generatePolygons(anchors, clusters, speed)}
@@ -170,21 +208,21 @@ const Renderer = (props: any) => {
         "Book",
         blue,
         saturate
-          ? "sepia(70%) hue-rotate(-50deg) saturate(1900%) grayscale(.1) contrast(1)"
+          ? "sepia(70%) hue-rotate(-50deg) saturate(2100%) grayscale(.1) contrast(1)"
           : "sepia(20%) hue-rotate(-50deg) saturate(100%) grayscale(1) contrast(1.5)"
       )}
       {filterClusters(
         "About",
         green,
         saturate
-          ? "sepia(70%) hue-rotate(-50deg) saturate(1900%) grayscale(.1) contrast(1) "
+          ? "sepia(70%) hue-rotate(-50deg) saturate(2100%) grayscale(.1) contrast(1) "
           : "sepia(20%) hue-rotate(-50deg) saturate(100%) grayscale(1) contrast(1.5) "
       )}
       {filterClusters(
         "Merch",
         orange,
         saturate
-          ? "sepia(70%) hue-rotate(-50deg) saturate(1900%) grayscale(.1) contrast(1)"
+          ? "sepia(70%) hue-rotate(-50deg) saturate(2100%) grayscale(.1) contrast(1)"
           : "sepia(20%) hue-rotate(-50deg) saturate(100%) grayscale(1) contrast(1.5)"
       )}
       {filterClusters(
@@ -202,43 +240,42 @@ const Renderer = (props: any) => {
           : "brightness(110%) saturate(20%) contrast(1.5)"
       )}
 
-      <Title
-        title={""}
-        imageSize={!saturate2 ? 200 : hovered === "Home" ? 110 : 100}
-        left={!saturate2 ? 30 : hovered === "Home" ? 4 : 10}
-        top={!saturate2 ? 35 : hovered === "Home" ? 2 : 5}
-        transform={""}
-        color={"white"}
-        fontSize={30}
-        speed={speed}
-        filter={"invert(0)"}
-        url={"./logo.png"}
-      />
-
       <div style={{ opacity: text ? 1 : 0, transition: `${speed}s ease` }}>
+        <Title
+          title={""}
+          imageSize={hovered === "Home" ? 100 : 95}
+          left={!cracked ? 13 : hovered === "Home" ? 4 : 10}
+          top={!cracked ? 13 : hovered === "Home" ? 2 : 5}
+          transform={""}
+          color={"white"}
+          fontSize={30}
+          speed={speed}
+          filter={"invert(0)"}
+          url={"./logo.png"}
+        />
         {createTitle(
-          hovered === "About" ? 65 : 55, //fontSize
+          hovered === "About" ? 80 : 55, //fontSize
           "about",
-          hovered === "About" ? 65 : 63, //x
-          hovered === "About" ? 22 : 22, //y
-          "translate(-50%,-50%) rotateZ(0deg) perspective(30px) rotateZ(-5deg) ",
+          hovered === "About" ? 68 : 67, //x
+          !cracked ? 28 : hovered === "About" ? 20 : 21, //y
+          "translate(-50%,-50%) rotateZ(0deg) perspective(30px)  ",
           "white"
         )}
         {createTitle(
-          hovered === "Book" ? 84 : 55, //fontSize
+          hovered === "Book" ? 84 : 58, //fontSize
           "book",
           53, //x
-          44, //y
+          45, //y
           "translate(-50%,-50%) perspective(30px) rotateX(.5deg)  rotateZ(0deg) ",
           "white"
         )}
 
         {createTitle(
-          hovered === "Merch" ? 62 : 55, //fontSize
+          hovered === "Merch" ? 80 : 55, //fontSize
           "shop",
-          hovered === "Merch" ? 21 : 24, //x
-          hovered === "Merch" ? 65.5 : 65.5, //y
-          "translate(-50%,-50%) rotateZ(0deg) perspective(30px) rotateX(1deg) rotateZ(5deg)  ",
+          hovered === "Merch" ? 21 : 24.5, //x
+          !cracked ? 59 : hovered === "Merch" ? 67.5 : 67, //y
+          "translate(-50%,-50%) rotateZ(0deg) perspective(30px) rotateX(1deg)  ",
           "white"
         )}
 
@@ -246,7 +283,7 @@ const Renderer = (props: any) => {
           title={""}
           imageSize={hovered === "FAQ" ? 100 : 80}
           left={hovered === "FAQ" ? 66 : 65}
-          top={hovered === "FAQ" ? 76 : 75}
+          top={!cracked ? 65 : hovered === "FAQ" ? 76 : 75}
           transform={""}
           color={"white"}
           fontSize={30}
