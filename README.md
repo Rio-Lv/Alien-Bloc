@@ -2,7 +2,7 @@
 This is a experimental rock themed menu created using a custom polygon tool called Anchors.
 It is intended to be a interesting front page for a rock climbing gym.
 
-Check it out at: https://alien-bloc.vercel.app
+See it in action at: https://alien-bloc.vercel.app
 
 ![alien rock](https://user-images.githubusercontent.com/68161803/158396656-dc6e20db-7045-42ed-88cd-33c0dfcbc1b1.png)
 
